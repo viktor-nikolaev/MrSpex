@@ -15,6 +15,12 @@ namespace MrSpex.Domain
             Quantity = quantity;
         }
 
+        private Stock()
+        {
+            SKU = null!;
+            Location = null!;
+        }
+
         public int Id { get; private set; }
 
         /// <summary>

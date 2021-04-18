@@ -10,6 +10,10 @@ namespace MrSpex.Data
 {
     public class AvailabilityDbContext : DbContext
     {
+        public AvailabilityDbContext(DbContextOptions<AvailabilityDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<Stock> Stocks => Set<Stock>();
 
         public async Task<IReadOnlyList<T>> FindAllSatisfiedByAnySpec<T>(IEnumerable<ASpec<T>> specs,
@@ -17,6 +21,15 @@ namespace MrSpex.Data
         {
             var spec = specs.Aggregate(Spec<T>.None, (agg, x) => agg | x);
             return await Set<T>().Where(spec).ToListAsync(cancel);
+        }
+
+        protected override void OnModelCreating(ModelBuilder mb)
+        {
+            mb.Entity<Stock>(b =>
+            {
+                b.ToTable("Stock");
+                b.HasIndex(x => new {x.Location, x.SKU});
+            });
         }
     }
 }
