@@ -4,4 +4,16 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FluentResults" Version="2.3.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.0.4" />
+      <PackageReference Include="MediatR" Version="9.0.0" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MrSpex.Domain\MrSpex.Domain.csproj" />
+      <ProjectReference Include="..\MrSpex.SharedKernel\MrSpex.SharedKernel.csproj" />
+    </ItemGroup>
+
 </Project>
