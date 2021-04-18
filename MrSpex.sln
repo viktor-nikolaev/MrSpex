@@ -5,6 +5,16 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrSpex.WebApp", "MrSpex.WebApp\MrSpex.WebApp.csproj", "{28D7A093-31B9-4DEF-8F0E-BE3B80E996F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrSpex.AppServices", "MrSpex.AppServices\MrSpex.AppServices.csproj", "{72D51515-F82B-437E-A52E-F4BC526D89E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrSpex.Domain", "MrSpex.Domain\MrSpex.Domain.csproj", "{C6EE05C6-E4A6-4BF0-A5D7-8AB899F7A70D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PortAdapters", "PortAdapters", "{E6E07B5E-CC28-4728-B24C-645509ECCF40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrSpex.Data", "MrSpex.Data\MrSpex.Data.csproj", "{571BE903-3ED5-4A91-95A6-C9541CEC23AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrSpex.SharedKernel", "MrSpex.SharedKernel\MrSpex.SharedKernel.csproj", "{65577319-2B3B-4F50-AB03-ECD5211A769C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +25,31 @@ Global
 		{28D7A093-31B9-4DEF-8F0E-BE3B80E996F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D7A093-31B9-4DEF-8F0E-BE3B80E996F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28D7A093-31B9-4DEF-8F0E-BE3B80E996F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72D51515-F82B-437E-A52E-F4BC526D89E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72D51515-F82B-437E-A52E-F4BC526D89E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72D51515-F82B-437E-A52E-F4BC526D89E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72D51515-F82B-437E-A52E-F4BC526D89E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6EE05C6-E4A6-4BF0-A5D7-8AB899F7A70D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6EE05C6-E4A6-4BF0-A5D7-8AB899F7A70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6EE05C6-E4A6-4BF0-A5D7-8AB899F7A70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6EE05C6-E4A6-4BF0-A5D7-8AB899F7A70D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{571BE903-3ED5-4A91-95A6-C9541CEC23AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{571BE903-3ED5-4A91-95A6-C9541CEC23AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{571BE903-3ED5-4A91-95A6-C9541CEC23AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{571BE903-3ED5-4A91-95A6-C9541CEC23AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65577319-2B3B-4F50-AB03-ECD5211A769C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65577319-2B3B-4F50-AB03-ECD5211A769C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65577319-2B3B-4F50-AB03-ECD5211A769C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65577319-2B3B-4F50-AB03-ECD5211A769C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17C9FEDB-F11E-47CF-B7E5-00D7F77A9048}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{571BE903-3ED5-4A91-95A6-C9541CEC23AD} = {E6E07B5E-CC28-4728-B24C-645509ECCF40}
+		{28D7A093-31B9-4DEF-8F0E-BE3B80E996F8} = {E6E07B5E-CC28-4728-B24C-645509ECCF40}
 	EndGlobalSection
 EndGlobal
