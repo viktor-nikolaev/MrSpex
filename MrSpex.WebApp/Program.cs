@@ -7,7 +7,7 @@ namespace MrSpex.WebApp
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().RunWithMigrate();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

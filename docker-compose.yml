@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  mrspex.webapp:
+    image: ${DOCKER_REGISTRY-}mrspexwebapp
+    build:
+      context: .
+      dockerfile: MrSpex.WebApp/Dockerfile
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword

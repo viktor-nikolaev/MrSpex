@@ -11,11 +11,9 @@ namespace MrSpex.Domain
             Amount = amount;
             Reason = reason;
             TransactionId = transactionId;
-
-            Id = Guid.NewGuid().ToString("D");
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///     Stock-keeping unit - SKU1, SKU2, SKU3 …SKUn

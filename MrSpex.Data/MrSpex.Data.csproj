@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MrSpex.AppServices\MrSpex.AppServices.csproj" />
       <ProjectReference Include="..\MrSpex.Domain\MrSpex.Domain.csproj" />
       <ProjectReference Include="..\MrSpex.SharedKernel\MrSpex.SharedKernel.csproj" />
     </ItemGroup>

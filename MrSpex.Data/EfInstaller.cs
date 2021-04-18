@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MrSpex.AppServices.ReadModel;
 using MrSpex.Domain;
 using MrSpex.SharedKernel;
 
@@ -13,6 +14,8 @@ namespace MrSpex.Data
 
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
             services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<ISalesChannelRepository, SalesChannelRepository>();
+            services.AddScoped<IReadRepository, EfReadRepository>();
         }
     }
 }

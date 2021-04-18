@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using FluentValidation;
 using MediatR;
 using MrSpex.Domain;
 using MrSpex.SharedKernel;
+using MrSpex.SharedKernel.Exceptions;
 
 namespace MrSpex.AppServices
 {
@@ -20,14 +22,7 @@ namespace MrSpex.AppServices
 
         public record Response(bool Acknowledged);
 
-        public record StockDto
-        (
-            string Location,
-            string SKU,
-            int Quantity
-        );
-
-        private class Validator : AbstractValidator<Command>
+        public class Validator : AbstractValidator<Command>
         {
             public Validator(StockDtoValidator stockDtoValidator)
             {
@@ -36,11 +31,12 @@ namespace MrSpex.AppServices
             }
         }
 
-        private class StockDtoValidator : AbstractValidator<StockDto>
+        public class StockDtoValidator : AbstractValidator<StockDto>
         {
-            public StockDtoValidator()
+            public StockDtoValidator(ISalesChannelRepository salesChannelRepository)
             {
-                RuleFor(x => x.Location).NotEmpty();
+                RuleFor(x => x.Location)
+                    .NotEmpty();
                 RuleFor(x => x.SKU).NotEmpty();
                 RuleFor(x => x.Quantity).GreaterThanOrEqualTo(0);
             }
@@ -49,16 +45,21 @@ namespace MrSpex.AppServices
         private class Handler : IRequestHandler<Command, Response>
         {
             private readonly IStockRepository _stockRepository;
+            private readonly ISalesChannelRepository _salesChannelRepository;
             private readonly IUnitOfWork _uow;
 
-            public Handler(IStockRepository stockRepository, IUnitOfWork uow)
+            public Handler(IStockRepository stockRepository, ISalesChannelRepository salesChannelRepository,
+                IUnitOfWork uow)
             {
                 _stockRepository = stockRepository;
+                _salesChannelRepository = salesChannelRepository;
                 _uow = uow;
             }
 
             public async Task<Response> Handle(Command command, CancellationToken cancel)
             {
+                await ThrowIfNoLocation(command, cancel);
+
                 // request.Stocks may have items for the same sku and location, so the last item wins here
                 var stocksToCreateOrUpdate = command
                     .Stocks
@@ -67,10 +68,32 @@ namespace MrSpex.AppServices
 
                 await UpdateExistingStocks(stocksToCreateOrUpdate, cancel);
                 CreateNewStocks(stocksToCreateOrUpdate);
-                
+
                 await _uow.Commit(cancel);
 
                 return new Response(true);
+            }
+
+            private async Task ThrowIfNoLocation(Command command, CancellationToken cancel)
+            {
+                // todo move this method into ISalesChannelRepository
+                var locations = command
+                    .Stocks
+                    .Select(stock => stock.Location)
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+                var spec = SalesChannelSpecs.InLocations(locations.ToArray());
+                var channels = await _salesChannelRepository.FindAll(spec, cancel);
+                
+                var haveSalesChannelsInLocations = channels
+                    .SelectMany(x => x.Locations)
+                    .ToHashSet()
+                    .IsSupersetOf(locations);
+
+                if (!haveSalesChannelsInLocations)
+                {
+                    throw new NotFoundException();
+                }
             }
 
             private async Task UpdateExistingStocks
@@ -80,12 +103,16 @@ namespace MrSpex.AppServices
             )
             {
                 // find existing stocks for updating
-                var specs = stocksToCreateOrUpdate.Keys.Select(x => StockSpecs.WithSKUInLocation(x.SKU, x.Location));
-                var existingStocks = await _stockRepository.GetStocksSatisfiedByAnySpec(specs, cancel);
+                var specs = stocksToCreateOrUpdate
+                    .Keys
+                    .Select(x => StockSpecs.WithSKUInLocation(x.SKU, x.Location))
+                    .AtLeastOne();
+                
+                var existingStocks = await _stockRepository.FindAll(specs, cancel);
 
                 foreach (var stock in existingStocks)
                 {
-                    var key = (stock.Location, stock.SKU);
+                    var key = (stock.SKU, stock.Location);
 
                     var (_, _, newQuantity) = stocksToCreateOrUpdate[key];
                     stock.ChangeQuantity(newQuantity);

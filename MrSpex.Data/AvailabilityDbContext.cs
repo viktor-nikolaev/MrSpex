@@ -15,6 +15,7 @@ namespace MrSpex.Data
         }
 
         public DbSet<Stock> Stocks => Set<Stock>();
+        public DbSet<SalesChannel> SalesChannels => Set<SalesChannel>();
 
         public async Task<IReadOnlyList<T>> FindAllSatisfiedByAnySpec<T>(IEnumerable<ASpec<T>> specs,
             CancellationToken cancel = default) where T : class
@@ -29,6 +30,15 @@ namespace MrSpex.Data
             {
                 b.ToTable("Stock");
                 b.HasIndex(x => new {x.Location, x.SKU});
+            });
+
+            mb.Entity<SalesChannel>(b =>
+            {
+                b.ToTable("SalesChannels");
+                b.HasIndex(x => x.Locations);
+                b.HasIndex(x => x.SalesChannelId);
+                
+                // b.Property(x => x.Locations).HasConversion(to => to.ToList(), from => from);
             });
         }
     }

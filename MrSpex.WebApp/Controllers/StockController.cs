@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MrSpex.AppServices;
+using MrSpex.AppServices.ReadModel;
 
 namespace MrSpex.WebApp.Controllers
 {
@@ -19,8 +20,13 @@ namespace MrSpex.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<SetStock.Response>> SetStock(SetStock.Command command)
         {
-            var response = await _mediator.Send(command);
-            return response;
+            return await _mediator.Send(command);
+        }
+
+        [HttpGet]
+        public async Task<GetStockPerSalesChannel.Response> GetStockPerSalesChannel(GetStockPerSalesChannel.Query query)
+        {
+            return await _mediator.Send(query);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NSpecifications;
+﻿using System;
+using NSpecifications;
 
 namespace MrSpex.Domain
 {
@@ -15,6 +16,7 @@ namespace MrSpex.Domain
             Quantity = quantity;
         }
 
+        [Obsolete("For ORM only", true)]
         private Stock()
         {
             SKU = null!;
