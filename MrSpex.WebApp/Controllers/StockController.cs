@@ -24,7 +24,8 @@ namespace MrSpex.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<GetStockPerSalesChannel.Response> GetStockPerSalesChannel(GetStockPerSalesChannel.Query query)
+        public async Task<GetStockPerSalesChannel.Response> GetStockPerSalesChannel(
+            [FromQuery] GetStockPerSalesChannel.Query query)
         {
             return await _mediator.Send(query);
         }

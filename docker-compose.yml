@@ -3,6 +3,8 @@ version: '3.4'
 services:
   mrspex.webapp:
     image: ${DOCKER_REGISTRY-}mrspexwebapp
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: MrSpex.WebApp/Dockerfile

@@ -31,6 +31,7 @@ namespace MrSpex.WebApp
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "MrSpex.WebApp", Version = "v1"});
+                c.CustomSchemaIds(x => x.FullName);
             });
             
             services.AddAppServices();

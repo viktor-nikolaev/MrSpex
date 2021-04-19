@@ -54,10 +54,13 @@ namespace MrSpex.AppServices.ReadModel
                           && stock.Quantity > 0 && skus.Contains(stock.SKU)
                     select stock;
 
-                var dto = await q
+                var list = await q.ToArrayAsync(cancel);
+
+                // group by is not EF friendly, so grouping in memory
+                var dto = list
                     .GroupBy(x => x.SKU, x => new SKUInLocation(x.Location, x.Quantity))
-                    .Select(x => new StockDto(x.Key, x.ToList()))
-                    .ToListAsync(cancel);
+                    .Select(x => new StockDto(x.Key, x.ToArray()))
+                    .ToList();
 
                 return new Response(dto);
             }
